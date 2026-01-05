@@ -72,6 +72,24 @@ After a successful build:
 - Container runs on port 5000
 - Application accessible at `http://<server-ip>:5000`
 
+### Pipeline Execution Screenshot
+
+![Jenkins Pipeline Success](image.png)
+
+*The screenshot above shows a successful Jenkins pipeline execution (Build #3) with all stages completed:*
+
+| Stage | Duration | Status |
+|-------|----------|--------|
+| Checkout SCM | 1.1s | ✅ Success |
+| Clone Repository | 1.0s | ✅ Success |
+| Build Docker Image | 4.0s | ✅ Success |
+| Run Container | 2.8s | ✅ Success |
+| Post Actions | 61ms | ✅ Success |
+
+**Total Build Time:** 11 seconds
+
+The pipeline successfully deployed the Flask application, now running at `http://localhost:5000`
+
 ## Future Enhancements
 
 - [ ] Add GitHub Webhooks for automatic builds
