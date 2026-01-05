@@ -10,19 +10,25 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t jenkins-demo:${BUILD_NUMBER} .'
+                bat 'docker build -t jenkins-demo:%BUILD_NUMBER% .'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh '''
-                docker stop jenkins-demo || true
-                docker rm jenkins-demo || true
-                docker run -d -p 5000:5000 --name jenkins-demo jenkins-demo:${BUILD_NUMBER}
-                '''
+                bat 'docker stop jenkins-demo || exit 0'
+                bat 'docker rm jenkins-demo || exit 0'
+                bat 'docker run -d -p 5000:5000 --name jenkins-demo jenkins-demo:%BUILD_NUMBER%'
             }
         }
     }
-}
 
+    post {
+        success {
+            echo 'Pipeline completed successfully! App running at http://localhost:5000'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs above.'
+        }
+    }
+}
