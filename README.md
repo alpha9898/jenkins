@@ -129,12 +129,10 @@ The pipeline successfully deployed the Flask application, now running at `http:/
 
 Images are available at: `docker pull amaryasser046/jenkins-demo:latest`
 
-## Future Enhancements
+## Completed Enhancements
 
-- [ ] Add GitHub Webhooks for automatic builds
 - [x] Add automated tests stage ✅
 - [x] Push images to Docker Hub ✅
-- [ ] Deploy to Kubernetes
 
 ## Author
 
