@@ -92,6 +92,7 @@ DOCKERHUB_REPO = 'your-dockerhub-username/jenkins-demo'
 
 After a successful build:
 - Docker image is created with tag `jenkins-demo:<build-number>`
+- Image is pushed to Docker Hub with version and `latest` tags
 - Container runs on port 5000
 - Application accessible at `http://<server-ip>:5000`
 
@@ -105,13 +106,28 @@ After a successful build:
 |-------|----------|--------|
 | Checkout SCM | 1.1s | ✅ Success |
 | Clone Repository | 1.0s | ✅ Success |
+| Run Tests | - | ✅ Success |
 | Build Docker Image | 4.0s | ✅ Success |
+| Push to Docker Hub | - | ✅ Success |
 | Run Container | 2.8s | ✅ Success |
 | Post Actions | 61ms | ✅ Success |
 
 **Total Build Time:** 11 seconds
 
 The pipeline successfully deployed the Flask application, now running at `http://localhost:5000`
+
+### Docker Hub Repository
+
+![Docker Hub Repository](dockerhub.png)
+
+*The screenshot above shows the Docker Hub repository with pushed images:*
+
+| Tag | Type | Pushed |
+|-----|------|--------|
+| latest | Image | ✅ Pushed |
+| 10 | Image | ✅ Pushed |
+
+Images are available at: `docker pull amaryasser046/jenkins-demo:latest`
 
 ## Future Enhancements
 
