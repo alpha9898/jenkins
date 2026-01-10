@@ -7,6 +7,7 @@ This project demonstrates a basic Jenkins CI pipeline for a Dockerized Flask app
 ```
 jenkins-demo/
 ├── app.py           # Flask application
+├── test_app.py      # Automated tests (pytest)
 ├── requirements.txt # Python dependencies
 ├── Dockerfile       # Docker image configuration
 ├── Jenkinsfile      # Jenkins pipeline definition
@@ -16,8 +17,10 @@ jenkins-demo/
 ## Pipeline Stages
 
 1. **Clone Repository** - Pull source code from GitHub
-2. **Build Docker Image** - Build the Docker image with build number tag
-3. **Run Container** - Stop any existing container and run the new one
+2. **Run Tests** - Install dependencies and run automated tests with pytest
+3. **Build Docker Image** - Build the Docker image with build number tag (only if tests pass)
+4. **Push to Docker Hub** - Push image to Docker Hub with version tag and latest tag
+5. **Run Container** - Stop any existing container and run the new one
 
 ## Technologies
 
@@ -65,6 +68,26 @@ docker run -p 5000:5000 jenkins-demo
    - Script Path: `Jenkinsfile`
 5. **Save** → **Build Now**
 
+### Setting Up Docker Hub Credentials
+
+To push images to Docker Hub, you need to add your credentials to Jenkins:
+
+1. Go to **Jenkins** → **Manage Jenkins** → **Credentials**
+2. Click on **(global)** domain
+3. Click **Add Credentials**
+4. Fill in:
+   - Kind: **Username with password**
+   - Username: Your Docker Hub username
+   - Password: Your Docker Hub password or access token
+   - ID: `dockerhub-credentials`
+   - Description: Docker Hub credentials
+5. Click **Create**
+
+**Important:** Update the `DOCKERHUB_REPO` variable in the Jenkinsfile with your Docker Hub username:
+```groovy
+DOCKERHUB_REPO = 'your-dockerhub-username/jenkins-demo'
+```
+
 ## Result
 
 After a successful build:
@@ -93,8 +116,8 @@ The pipeline successfully deployed the Flask application, now running at `http:/
 ## Future Enhancements
 
 - [ ] Add GitHub Webhooks for automatic builds
-- [ ] Add automated tests stage
-- [ ] Push images to Docker Hub
+- [x] Add automated tests stage ✅
+- [x] Push images to Docker Hub ✅
 - [ ] Deploy to Kubernetes
 
 ## Author

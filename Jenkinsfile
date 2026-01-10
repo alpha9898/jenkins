@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+        DOCKERHUB_REPO = 'amaryasser046/jenkins-demo'
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -12,12 +17,21 @@ pipeline {
             steps {
                 bat 'pip install -r requirements.txt'
                 bat 'pytest test_app.py -v'
-            }
+            }image.png
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t jenkins-demo:%BUILD_NUMBER% .'
+                bat "docker build -t %DOCKERHUB_REPO%:%BUILD_NUMBER% -t %DOCKERHUB_REPO%:latest ."
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                bat "echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin"
+                bat "docker push %DOCKERHUB_REPO%:%BUILD_NUMBER%"
+                bat "docker push %DOCKERHUB_REPO%:latest"
+                bat "docker logout"
             }
         }
 
@@ -25,7 +39,7 @@ pipeline {
             steps {
                 bat 'docker stop jenkins-demo || exit 0'
                 bat 'docker rm jenkins-demo || exit 0'
-                bat 'docker run -d -p 5000:5000 --name jenkins-demo jenkins-demo:%BUILD_NUMBER%'
+                bat "docker run -d -p 5000:5000 --name jenkins-demo %DOCKERHUB_REPO%:%BUILD_NUMBER%"
             }
         }
     }
