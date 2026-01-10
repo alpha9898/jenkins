@@ -17,7 +17,7 @@ pipeline {
             steps {
                 bat 'pip install -r requirements.txt'
                 bat 'pytest test_app.py -v'
-            }image.png
+            }
         }
 
         stage('Build Docker Image') {
