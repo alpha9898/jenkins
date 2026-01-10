@@ -8,6 +8,13 @@ pipeline {
             }
         }
 
+        stage('Run Tests') {
+            steps {
+                bat 'pip install -r requirements.txt'
+                bat 'pytest test_app.py -v'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t jenkins-demo:%BUILD_NUMBER% .'
