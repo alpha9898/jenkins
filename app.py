@@ -11,9 +11,13 @@ GITHUB_WEBHOOK_SECRET = None  # e.g., "your-secret-here"
 def home():
     return "Jenkins CI Pipeline is working!"
 
-@app.route("/github-webhook", methods=["POST"])
+@app.route("/github-webhook", methods=["GET", "POST"])
 def github_webhook():
     """Webhook endpoint to receive GitHub events"""
+    
+    # Handle GET request (for verification/testing)
+    if request.method == "GET":
+        return jsonify({"status": "ok", "message": "Webhook endpoint is active"}), 200
     
     # Get the event type from GitHub headers
     event_type = request.headers.get("X-GitHub-Event", "unknown")
