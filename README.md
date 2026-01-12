@@ -29,7 +29,6 @@ jenkins-demo/
 - **GitHub** - Source code repository
 - **Python (Flask)** - Web application framework
 - **Smee.io** - Webhook payload delivery service
-- **ngrok** - Secure tunneling to localhost (alternative)
 
 ---
 
@@ -175,39 +174,6 @@ Commits: 1
 | **Content-Type** | `application/json` |
 
 The webhook successfully received the push event and returned a 200 status code, confirming the integration is working correctly.
-
-### Alternative: Using ngrok
-
-If you prefer ngrok over Smee.io:
-
-#### Step 1: Install ngrok
-
-```bash
-# Windows (winget)
-winget install ngrok.ngrok
-
-# Or download from https://ngrok.com/download
-```
-
-#### Step 2: Configure ngrok
-
-```bash
-ngrok config add-authtoken YOUR_AUTH_TOKEN
-```
-
-Get your auth token from [https://dashboard.ngrok.com/get-started/your-authtoken](https://dashboard.ngrok.com/get-started/your-authtoken)
-
-#### Step 3: Start ngrok
-
-```bash
-ngrok http 5000
-```
-
-#### Step 4: Use the ngrok URL
-
-Use the ngrok URL (e.g., `https://abc123.ngrok-free.app/github-webhook`) as your GitHub webhook Payload URL.
-
-> **Note:** ngrok's free tier shows a browser warning page that can cause 302 redirect errors with webhooks. Smee.io is recommended for GitHub webhooks as it's designed specifically for this purpose.
 
 ### Webhook Security (Optional)
 
